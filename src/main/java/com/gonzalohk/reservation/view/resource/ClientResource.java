@@ -50,7 +50,7 @@ public class ClientResource {
 	@PutMapping("/{phone}")
 	@ApiOperation(value = "Update client", notes = "Service to update a client")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Client updated properly"),
-			@ApiResponse(code = 400, message = "Invalid request") })	
+			@ApiResponse(code = 404, message = "Client does not found") })	
 	public ResponseEntity<Client> updateClient(@PathVariable("phone") String phone, ClientVO clientVO) {
 		Client client = this.clientService.findByPhone(phone);
 		if (client == null) {
@@ -66,6 +66,9 @@ public class ClientResource {
 	}
 
 	@DeleteMapping("/{phone}")
+	@ApiOperation(value = "Delete client", notes = "Service to delete client")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Client deleted properly"),
+			@ApiResponse(code = 404, message = "Client Not found") })	
 	public void removeClient(@PathVariable("phone") String phone) {
 		Client client = this.clientService.findByPhone(phone);
 		if (client != null) {
@@ -74,6 +77,9 @@ public class ClientResource {
 	}
 
 	@GetMapping
+	@ApiOperation(value = "Get clients", notes = "Service to get all clients")
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Clients found"),
+			@ApiResponse(code = 404, message = "Clients Not found") })
 	public ResponseEntity<List<Client>> findAll() {
 		return ResponseEntity.ok(this.clientService.findAll());
 	}
